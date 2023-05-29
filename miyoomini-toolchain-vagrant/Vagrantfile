@@ -25,12 +25,6 @@ Vagrant.configure("2") do |config|
     echo 'echo "cd /vagrant" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
     echo 'echo "docker run -it --rm -v /vagrant/workspace:/root/workspace anzz1/miyoomini-toolchain:latest /bin/bash" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
     echo 'echo "exit" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
-    echo 'Vagrant box provisioned !'
-    echo '"vagrant up" to power up'
-    echo '"vagrant ssh" to connect or via ssh@localhost:2222 (user: docker, pass: empty)'
-    echo '"vagrant halt" to shut down'
-    echo '"vagrant destroy" to clean up and destroy'
-    echo 'Shutting down now...'
   SHELL
 
   if Vagrant.has_plugin?("vagrant-reload") then
