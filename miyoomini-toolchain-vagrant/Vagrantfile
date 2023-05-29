@@ -1,10 +1,10 @@
 Vagrant.configure("2") do |config|
-  config.vagrant.plugins = "vagrant-vbguest"
+  config.vagrant.plugins = ["vagrant-vbguest", "vagrant-reload"]
   if Vagrant.has_plugin?("vagrant-vbguest") then
     config.vbguest.auto_update = false
   end
 
-  config.vm.box = "31z4/boot2docker"
+  config.vm.box = "anzz1/boot2docker"
   config.vm.box_version = "18.01.0"
 
   config.vm.provider "virtualbox" do |vb|
@@ -15,9 +15,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
-  config.vm.provision "docker",
-    images: ["mholdg16/miyoomini-toolchain:latest"]
-
   config.vm.provision "shell", inline: <<-SHELL
     sed -in 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /usr/local/etc/ssh/sshd_config
     sed -in 's/^#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /usr/local/etc/ssh/sshd_config
@@ -26,7 +23,7 @@ Vagrant.configure("2") do |config|
     echo 'passwd -d docker' >> /var/lib/boot2docker/bootlocal.sh
     echo 'passwd -d root' >> /var/lib/boot2docker/bootlocal.sh
     echo 'echo "cd /vagrant" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
-    echo 'echo "docker run -it --rm -v /vagrant/workspace:/root/workspace mholdg16/miyoomini-toolchain:latest /bin/bash" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
+    echo 'echo "docker run -it --rm -v /vagrant/workspace:/root/workspace anzz1/miyoomini-toolchain:latest /bin/bash" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
     echo 'echo "exit" >> /home/docker/.ashrc' >> /var/lib/boot2docker/bootlocal.sh
     echo 'Vagrant box provisioned !'
     echo '"vagrant up" to power up'
@@ -34,6 +31,21 @@ Vagrant.configure("2") do |config|
     echo '"vagrant halt" to shut down'
     echo '"vagrant destroy" to clean up and destroy'
     echo 'Shutting down now...'
-    shutdown -h now
+  SHELL
+
+  if Vagrant.has_plugin?("vagrant-reload") then
+    config.vm.provision :reload
+  end
+
+  config.vm.provision "docker",
+    images: ["anzz1/miyoomini-toolchain:latest"]
+
+  config.vm.provision "shell", inline: <<-SHELL
+    echo '========================='
+    echo 'Vagrant box provisioned !'
+    echo '"vagrant ssh" to connect or via ssh@localhost:2222 (user: docker, pass: empty)'
+    echo '"vagrant halt" to shut down'
+    echo '"vagrant up" to power up'
+    echo '"vagrant destroy" to clean up and destroy'
   SHELL
 end
