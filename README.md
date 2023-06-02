@@ -6,3 +6,5 @@ Resources for Miyoo Mini
 [DotUI-X](https://github.com/anzz1/DotUI-X)
 
 [OnionOS](https://github.com/OnionUI/Onion)
+
+[Allium](https://github.com/goweiwen/Allium)
