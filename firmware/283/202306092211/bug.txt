@@ -1,0 +1,7 @@
+已知问题：
+1、extlist失效，
+2、Onion主界面不显示充电图标。
+
+Known issue: 
+1、Extlist fails，
+2、Onion main screen does not display charging icon.
