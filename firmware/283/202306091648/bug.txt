@@ -1,0 +1,6 @@
+已知问题：
+Onion主界面不显示充电图标。
+
+
+Known issue: 
+Onion main screen does not display charging icon.
